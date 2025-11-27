@@ -32,8 +32,6 @@ LIB_TEST_SRC := D1316Uuid_test.cpp
 
 .PHONY: all build test test-unit test-library clean info
 
-all: build test
-
 build: $(TARGET)
 
 $(TARGET): $(SRC)
@@ -57,6 +55,9 @@ test-unit: $(TEST_EXE)
 	rm -f $(OBJ) $(TEST_EXE)
 
 test-library: $(LIB_TEST_EXE)
+ifdef IMPORT_LIB
+	rm -f $(IMPORT_LIB)
+endif
 	$(RUN_LIB_TEST)
 	rm -f $(LIB_TEST_EXE)
 
