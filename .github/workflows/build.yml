@@ -35,7 +35,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - run: make clean all
+      - run: make info
+
+      - run: make clean test
 
       - uses: actions/upload-artifact@v5
         with:
@@ -46,3 +48,4 @@ jobs:
             ./*.dll
             ./*.dylib
           retention-days: 3
+          if-no-files-found: error
