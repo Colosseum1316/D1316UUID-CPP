@@ -7,9 +7,6 @@ ifeq ($(OS),Windows_NT)
     RUN_TEST := .\$(TEST_EXE)
     LIB_TEST_EXE := D1316Uuid_lib_test_exec.exe
     RUN_LIB_TEST := .\$(LIB_TEST_EXE)
-    RM := del /Q || exit 0
-    CP := copy
-    MKDIR := mkdir || exit 0
     LDFLAGS := -shared -Wl,--out-implib,$(IMPORT_LIB)
 else
     UNAME_S := $(shell uname -s)
@@ -24,9 +21,6 @@ else
     RUN_TEST := ./$(TEST_EXE)
     LIB_TEST_EXE := D1316Uuid_lib_test_exec
     RUN_LIB_TEST := env LD_LIBRARY_PATH=. DYLD_LIBRARY_PATH=. ./$(LIB_TEST_EXE)
-    RM := rm -f
-    CP := cp
-    MKDIR := mkdir -p
 endif
 
 CXX ?= g++
@@ -60,14 +54,14 @@ test: test-unit test-library
 
 test-unit: $(TEST_EXE)
 	$(RUN_TEST)
-	-$(RM) $(OBJ) $(TEST_EXE)
+	rm -f $(OBJ) $(TEST_EXE)
 
 test-library: $(LIB_TEST_EXE)
 	$(RUN_LIB_TEST)
-	-$(RM) $(LIB_TEST_EXE)
+	rm -f $(LIB_TEST_EXE)
 
 clean:
-	-$(RM) $(TARGET) $(IMPORT_LIB) $(LIB_TEST_EXE) $(TEST_EXE) $(OBJ)
+	rm -f $(TARGET) $(IMPORT_LIB) $(LIB_TEST_EXE) $(TEST_EXE) $(OBJ)
 
 info:
 	@echo "OS       : $(if $(OS),Windows,$(UNAME_S))"

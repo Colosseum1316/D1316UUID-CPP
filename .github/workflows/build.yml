@@ -35,6 +35,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - run: make info
+
       - run: make clean all
 
       - uses: actions/upload-artifact@v5
