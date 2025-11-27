@@ -1,0 +1,48 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - "master"
+    paths:
+      - "!.vscode"
+      - "!.gitignore"
+      - "!COPYING"
+      - "*.cpp"
+      - "*.h"
+      - "Makefile"
+  pull_request:
+    branches:
+      - "master"
+    paths:
+      - "!.vscode"
+      - "!.gitignore"
+      - "!COPYING"
+      - "*.cpp"
+      - "*.h"
+      - "Makefile"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, ubuntu-22.04-arm, ubuntu-24.04-arm, windows-11-arm, macos-15-intel, macos-latest, macos-26]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - run: make clean all
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: lib ${{ matrix.os }} ${{ github.run_id }}
+          overwrite: true
+          path: |
+            ./*.so
+            ./*.dll
+            ./*.dylib
+          retention-days: 3

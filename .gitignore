@@ -1,0 +1,8 @@
+.idea/
+*.so
+*.dll
+*.a
+*.dylib
+*.exe
+*_test_exec.exe
+*_test_exec
